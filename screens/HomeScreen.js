@@ -22,22 +22,50 @@ export default class HomeScreen extends React.Component {
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          <View style={styles.welcomeContainer}>
-            <Image source={ require('../assets/images/fruits.jpg') } style={styles.welcomeImage} />
-          </View>
 
-          <View style={styles.getStartedContainer}>
+          <View style={styles.productsContainer}>
+            <View style={styles.welcomeContainer}>
+              <Image source={ require('../assets/images/fruits.jpg') } style={styles.welcomeImage} />
+            </View>
             <SectionList
             sections={[
               {title: 'Fruits', data: ['Apples', 'Bananas', 'Cherries']},
-              {title: 'Vegetables', data: ['Asparagus', 'Broccoli', 'Brussels sprouts']},
-              {title: 'Dessert', data: ['Coconut', 'Mint Oreo']},
             ]}
             renderItem={({item}) => <Text style={styles.item}>{item}</Text>}
-            renderSectionHeader={({section}) => <Text style={styles.sectionHeader}>{section.title}</Text>}
+            renderSectionHeader={({section}) => <Text style={styles.category}>{section.title}</Text>}
             keyExtractor={(item, index) => index}
           />
           </View>
+
+          <View style={styles.productsContainer}>
+            <View style={styles.welcomeContainer}>
+              <Image source={ require('../assets/images/vegetables.jpg') } style={styles.welcomeImage} />
+            </View>
+            <SectionList
+            sections={[
+              {title: 'Vegetables', data: ['Asparagus', 'Broccoli', 'Brussels sprouts']},
+            ]}
+            renderItem={({item}) => <Text style={styles.item}>{item}</Text>}
+            renderSectionHeader={({section}) => <Text style={styles.category}>{section.title}</Text>}
+            keyExtractor={(item, index) => index}
+          />
+          </View>
+
+          <View style={styles.productsContainer}>
+            <View style={styles.welcomeContainer}>
+              <Image source={ require('../assets/images/desserts.jpg') } style={styles.welcomeImage} />
+            </View>
+            <SectionList
+            sections={[
+              {title: 'Dessert', data: ['Coconut', 'Mint Oreo']},
+            ]}
+            renderItem={({item}) => <Text style={styles.item}>{item}</Text>}
+            renderSectionHeader={({section}) => <Text style={styles.category}>{section.title}</Text>}
+            keyExtractor={(item, index) => index}
+          />
+          </View>
+
+
 
           <View style={styles.helpContainer}>
             <TouchableOpacity onPress={this._handleHelpPress} style={styles.helpLink}>
@@ -92,17 +120,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-  sectionHeader: {
+  category: {
     paddingTop: 2,
-    paddingLeft: 10,
-    paddingRight: 10,
+    paddingLeft: 3,
+    paddingRight: 3,
     paddingBottom: 2,
     fontSize: 14,
     fontWeight: 'bold',
     backgroundColor: 'rgba(247,247,247,1.0)',
   },
   item: {
-    padding: 10,
+    padding: 2,
     fontSize: 18,
     height: 44,
   },
@@ -122,13 +150,13 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   welcomeImage: {
-    width: 150,
-    height: 150,
+    width: 200,
+    height: 200,
     resizeMode: 'contain',
     marginTop: 3,
     marginLeft: -10,
   },
-  getStartedContainer: {
+  productsContainer: {
     alignItems: 'center',
     marginHorizontal: 50,
   },
