@@ -56,17 +56,17 @@ export default class HomeScreen extends React.Component {
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
           {this.state.categories.map(cat => (
-            <View style={styles.imageContainer}>
+            <View style={styles.imageContainer} key={cat.id}>
               <View style={styles.welcomeContainer}>
-                <Image source={require('../assets/images/fruits.jpg')} style={styles.categoryImage} />
+                <Image source={ {uri: cat.img } } style={styles.categoryImage} />
                 <Button
-                  title="Go to Product View"
+                  title="Details"
                   onPress={() => navigate('ProductView', { name: 'Jane' })}
                 />
               </View>
               <SectionList
                 sections={[
-                  { title: 'Fruits', data: ['Apples', 'Bananas', 'Cherries'] },
+                  { title: cat.name, data: ['Apples', 'Bananas', 'Cherries'] },
                 ]}
                 renderItem={({ item }) => <Text style={styles.item}>{item}</Text>}
                 renderSectionHeader={({ section }) => <Text style={styles.category}>{section.title}</Text>}
