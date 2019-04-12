@@ -50,7 +50,7 @@ export default class HomeScreen extends React.Component {
 
   render() {
 
-    const { navigate } = this.props.navigation;
+    const { navigate, push } = this.props.navigation;
 
     return (
       <View style={styles.container}>
@@ -61,7 +61,7 @@ export default class HomeScreen extends React.Component {
                 <Image source={ {uri: cat.img } } style={styles.categoryImage} />
                 <Button
                   title="Details"
-                  onPress={() => navigate('ProductView', { name: 'Jane' })}
+                  onPress={() => push('ProductView', { name: 'Jane' })}
                 />
               </View>
               <SectionList
