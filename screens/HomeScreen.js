@@ -9,9 +9,41 @@ import {
   View,
 } from 'react-native';
 import { SectionList, Button } from 'react-native';
-import { WebBrowser } from 'expo';
 
 export default class HomeScreen extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      categories: [
+        {
+          id: 1,
+          name: "Fruits",
+          img: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Culinary_fruits_front_view.jpg",
+          products: [
+            {
+              id: 1,
+              name: "Banana",
+              img: "https://target.scene7.com/is/image/Target/GUEST_f5d0cfc3-9d02-4ee0-a6c6-ed5dc09971d1?wid=488&hei=488&fmt=pjpeg"
+            },
+            {
+              id: 2,
+              name: "PineApple",
+              img: "https://www.organicfacts.net/wp-content/uploads/pineapplecalories.jpg"
+            },
+            {
+              id: 3,
+              name: "Orange",
+              img: "http://soappotions.com/wp-content/uploads/2017/10/orange.jpg"
+            },
+
+          ]
+        }
+      ]
+    }
+  }
+
   static navigationOptions = {
     header: null,
   };
@@ -23,54 +55,26 @@ export default class HomeScreen extends React.Component {
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-
-          <View style={styles.imageContainer}>
-            <View style={styles.welcomeContainer}>
-              <Image source={require('../assets/images/fruits.jpg')} style={styles.categoryImage} />
-              <Button
-                title="Go to Product View"
-                onPress={() => navigate('ProductView', { name: 'Jane' })}
+          {this.state.categories.map(cat => (
+            <View style={styles.imageContainer}>
+              <View style={styles.welcomeContainer}>
+                <Image source={require('../assets/images/fruits.jpg')} style={styles.categoryImage} />
+                <Button
+                  title="Go to Product View"
+                  onPress={() => navigate('ProductView', { name: 'Jane' })}
+                />
+              </View>
+              <SectionList
+                sections={[
+                  { title: 'Fruits', data: ['Apples', 'Bananas', 'Cherries'] },
+                ]}
+                renderItem={({ item }) => <Text style={styles.item}>{item}</Text>}
+                renderSectionHeader={({ section }) => <Text style={styles.category}>{section.title}</Text>}
+                keyExtractor={(item, index) => index}
               />
             </View>
-            <SectionList
-              sections={[
-                { title: 'Fruits', data: ['Apples', 'Bananas', 'Cherries'] },
-              ]}
-              renderItem={({ item }) => <Text style={styles.item}>{item}</Text>}
-              renderSectionHeader={({ section }) => <Text style={styles.category}>{section.title}</Text>}
-              keyExtractor={(item, index) => index}
-            />
-          </View>
-
-          <View style={styles.imageContainer}>
-            <View style={styles.welcomeContainer}>
-              <Image source={require('../assets/images/vegetables.jpg')} style={styles.categoryImage} />
-            </View>
-            <SectionList
-              sections={[
-                { title: 'Vegetables', data: ['Asparagus', 'Broccoli', 'Brussels sprouts'] },
-              ]}
-              renderItem={({ item }) => <Text style={styles.item}>{item}</Text>}
-              renderSectionHeader={({ section }) => <Text style={styles.category}>{section.title}</Text>}
-              keyExtractor={(item, index) => index}
-            />
-          </View>
-
-          <View style={styles.imageContainer}>
-            <View style={styles.welcomeContainer}>
-              <Image source={require('../assets/images/desserts.jpg')} style={styles.categoryImage} />
-            </View>
-            <SectionList
-              sections={[
-                { title: 'Dessert', data: ['Coconut', 'Mint Oreo'] },
-              ]}
-              renderItem={({ item }) => <Text style={styles.item}>{item}</Text>}
-              renderSectionHeader={({ section }) => <Text style={styles.category}>{section.title}</Text>}
-              keyExtractor={(item, index) => index}
-            />
-          </View>
-
-
+          ))
+          }
 
           <View style={styles.helpContainer}>
             <TouchableOpacity onPress={this._handleHelpPress} style={styles.helpLink}>
