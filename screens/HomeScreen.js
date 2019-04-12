@@ -8,64 +8,73 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { SectionList } from 'react-native';
-import { WebBrowser } from 'expo';
-
-import { MonoText } from '../components/StyledText';
+import { SectionList, Button } from 'react-native';
 
 export default class HomeScreen extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      categories: [
+        {
+          id: 1,
+          name: "Fruits",
+          img: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Culinary_fruits_front_view.jpg",
+          products: [
+            {
+              id: 1,
+              name: "Banana",
+              img: "https://target.scene7.com/is/image/Target/GUEST_f5d0cfc3-9d02-4ee0-a6c6-ed5dc09971d1?wid=488&hei=488&fmt=pjpeg"
+            },
+            {
+              id: 2,
+              name: "PineApple",
+              img: "https://www.organicfacts.net/wp-content/uploads/pineapplecalories.jpg"
+            },
+            {
+              id: 3,
+              name: "Orange",
+              img: "http://soappotions.com/wp-content/uploads/2017/10/orange.jpg"
+            },
+
+          ]
+        }
+      ]
+    }
+  }
+
   static navigationOptions = {
     header: null,
   };
 
   render() {
+
+    const { navigate } = this.props.navigation;
+
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-
-          <View style={styles.productsContainer}>
-            <View style={styles.welcomeContainer}>
-              <Image source={ require('../assets/images/fruits.jpg') } style={styles.welcomeImage} />
+          {this.state.categories.map(cat => (
+            <View style={styles.imageContainer} key={cat.id}>
+              <View style={styles.welcomeContainer}>
+                <Image source={ {uri: cat.img } } style={styles.categoryImage} />
+                <Button
+                  title="Details"
+                  onPress={() => navigate('ProductView', { name: 'Jane' })}
+                />
+              </View>
+              <SectionList
+                sections={[
+                  { title: cat.name, data: ['Apples', 'Bananas', 'Cherries'] },
+                ]}
+                renderItem={({ item }) => <Text style={styles.item}>{item}</Text>}
+                renderSectionHeader={({ section }) => <Text style={styles.category}>{section.title}</Text>}
+                keyExtractor={(item, index) => index}
+              />
             </View>
-            <SectionList
-            sections={[
-              {title: 'Fruits', data: ['Apples', 'Bananas', 'Cherries']},
-            ]}
-            renderItem={({item}) => <Text style={styles.item}>{item}</Text>}
-            renderSectionHeader={({section}) => <Text style={styles.category}>{section.title}</Text>}
-            keyExtractor={(item, index) => index}
-          />
-          </View>
-
-          <View style={styles.productsContainer}>
-            <View style={styles.welcomeContainer}>
-              <Image source={ require('../assets/images/vegetables.jpg') } style={styles.welcomeImage} />
-            </View>
-            <SectionList
-            sections={[
-              {title: 'Vegetables', data: ['Asparagus', 'Broccoli', 'Brussels sprouts']},
-            ]}
-            renderItem={({item}) => <Text style={styles.item}>{item}</Text>}
-            renderSectionHeader={({section}) => <Text style={styles.category}>{section.title}</Text>}
-            keyExtractor={(item, index) => index}
-          />
-          </View>
-
-          <View style={styles.productsContainer}>
-            <View style={styles.welcomeContainer}>
-              <Image source={ require('../assets/images/desserts.jpg') } style={styles.welcomeImage} />
-            </View>
-            <SectionList
-            sections={[
-              {title: 'Dessert', data: ['Coconut', 'Mint Oreo']},
-            ]}
-            renderItem={({item}) => <Text style={styles.item}>{item}</Text>}
-            renderSectionHeader={({section}) => <Text style={styles.category}>{section.title}</Text>}
-            keyExtractor={(item, index) => index}
-          />
-          </View>
-
-
+          ))
+          }
 
           <View style={styles.helpContainer}>
             <TouchableOpacity onPress={this._handleHelpPress} style={styles.helpLink}>
@@ -75,44 +84,12 @@ export default class HomeScreen extends React.Component {
         </ScrollView>
 
         <View style={styles.tabBarInfoContainer}>
-          
+
         </View>
       </View>
     );
   }
 
-  _maybeRenderDevelopmentModeWarning() {
-    if (__DEV__) {
-      const learnMoreButton = (
-        <Text onPress={this._handleLearnMorePress} style={styles.helpLinkText}>
-          Learn more
-        </Text>
-      );
-
-      return (
-        <Text style={styles.developmentModeText}>
-          Development mode is enabled, your app will be slower but you can use useful development
-          tools. {learnMoreButton}
-        </Text>
-      );
-    } else {
-      return (
-        <Text style={styles.developmentModeText}>
-          You are not in development mode, your app will run at full speed.
-        </Text>
-      );
-    }
-  }
-
-  _handleLearnMorePress = () => {
-    WebBrowser.openBrowserAsync('https://docs.expo.io/versions/latest/guides/development-mode');
-  };
-
-  _handleHelpPress = () => {
-    WebBrowser.openBrowserAsync(
-      'https://docs.expo.io/versions/latest/guides/up-and-running.html#can-t-see-your-changes'
-    );
-  };
 }
 
 const styles = StyleSheet.create({
@@ -134,13 +111,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     height: 44,
   },
-  developmentModeText: {
-    marginBottom: 20,
-    color: 'rgba(0,0,0,0.4)',
-    fontSize: 14,
-    lineHeight: 19,
-    textAlign: 'center',
-  },
   contentContainer: {
     paddingTop: 30,
   },
@@ -149,33 +119,16 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 20,
   },
-  welcomeImage: {
+  categoryImage: {
     width: 200,
     height: 200,
     resizeMode: 'contain',
     marginTop: 3,
     marginLeft: -10,
   },
-  productsContainer: {
+  imageContainer: {
     alignItems: 'center',
     marginHorizontal: 50,
-  },
-  homeScreenFilename: {
-    marginVertical: 7,
-  },
-  codeHighlightText: {
-    color: 'rgba(96,100,109, 0.8)',
-  },
-  codeHighlightContainer: {
-    backgroundColor: 'rgba(0,0,0,0.05)',
-    borderRadius: 3,
-    paddingHorizontal: 4,
-  },
-  getStartedText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    lineHeight: 24,
-    textAlign: 'center',
   },
   tabBarInfoContainer: {
     position: 'absolute',
@@ -196,14 +149,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#fbfbfb',
     paddingVertical: 20,
-  },
-  tabBarInfoText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    textAlign: 'center',
-  },
-  navigationFilename: {
-    marginTop: 5,
   },
   helpContainer: {
     marginTop: 15,
