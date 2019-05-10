@@ -46,30 +46,30 @@ export default class HomeScreen extends React.Component {
             <View style={styles.imageContainer} key={cat.id}>
               <View style={styles.welcomeContainer}>
                 <Image source={ {uri: cat.img } } style={styles.categoryImage} />
-                <Button
-                  title="Details"
-                  onPress={() => navigate('ProductView', { name: 'Jane' })}
-                />
               </View>
               <SectionList
                 sections={[
-                  { title: cat.name, data: ['Apples', 'Bananas', 'Cherries'] },
+                  { title: cat.name, data: cat.products },
                 ]}
-                renderItem={({ item }) => <Text style={styles.item}>{item}</Text>}
+                renderItem={({ item }) => 
+                <View>
+                  <Text style={styles.item}>
+                  {item.name}
+                  </Text>
+                  <Button
+                    title="Details"
+                    onPress={() => navigate('ProductView', { name: item.name })}
+                  />
+                 </View>
+                  }
+
                 renderSectionHeader={({ section }) => <Text style={styles.category}>{section.title}</Text>}
                 keyExtractor={(item, index) => index}
               />
             </View>
           ))
           }
-          <View style={styles.helpContainer}>
-            <TouchableOpacity onPress={this._handleHelpPress} style={styles.helpLink}>
-              <Text style={styles.helpLinkText}>Help, it didn’t automatically reload!</Text>
-            </TouchableOpacity>
-          </View>
         </ScrollView>
-        <View style={styles.tabBarInfoContainer}>
-        </View>
       </View>
     );
   }
@@ -82,10 +82,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   category: {
-    paddingTop: 2,
-    paddingLeft: 3,
-    paddingRight: 3,
-    paddingBottom: 2,
     fontSize: 14,
     fontWeight: 'bold',
     backgroundColor: 'rgba(247,247,247,1.0)',
@@ -96,7 +92,7 @@ const styles = StyleSheet.create({
     height: 44,
   },
   contentContainer: {
-    paddingTop: 30,
+    paddingTop: 10,
   },
   welcomeContainer: {
     alignItems: 'center',
@@ -107,8 +103,7 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     resizeMode: 'contain',
-    marginTop: 3,
-    marginLeft: -10,
+    marginTop: 3
   },
   imageContainer: {
     alignItems: 'center',
@@ -132,17 +127,6 @@ const styles = StyleSheet.create({
     }),
     alignItems: 'center',
     backgroundColor: '#fbfbfb',
-    paddingVertical: 20,
-  },
-  helpContainer: {
-    marginTop: 15,
-    alignItems: 'center',
-  },
-  helpLink: {
-    paddingVertical: 15,
-  },
-  helpLinkText: {
-    fontSize: 14,
-    color: '#2e78b7',
+    paddingVertical: 2,
   },
 });
