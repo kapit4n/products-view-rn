@@ -17,31 +17,18 @@ export default class HomeScreen extends React.Component {
 
     this.state = {
       categories: [
-        {
-          id: 1,
-          name: "Fruits",
-          img: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Culinary_fruits_front_view.jpg",
-          products: [
-            {
-              id: 1,
-              name: "Banana",
-              img: "https://target.scene7.com/is/image/Target/GUEST_f5d0cfc3-9d02-4ee0-a6c6-ed5dc09971d1?wid=488&hei=488&fmt=pjpeg"
-            },
-            {
-              id: 2,
-              name: "PineApple",
-              img: "https://www.organicfacts.net/wp-content/uploads/pineapplecalories.jpg"
-            },
-            {
-              id: 3,
-              name: "Orange",
-              img: "http://soappotions.com/wp-content/uploads/2017/10/orange.jpg"
-            },
-
-          ]
-        }
       ]
     }
+  }
+  
+  componentWillMount() {
+    fetch('https://rest-customers-1212.herokuapp.com/categories')
+    .then((response) => response.json())
+    .then((responseJson) => {
+      this.setState({
+        categories: responseJson
+      });
+    })
   }
 
   static navigationOptions = {
@@ -75,16 +62,13 @@ export default class HomeScreen extends React.Component {
             </View>
           ))
           }
-
           <View style={styles.helpContainer}>
             <TouchableOpacity onPress={this._handleHelpPress} style={styles.helpLink}>
               <Text style={styles.helpLinkText}>Help, it didn’t automatically reload!</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
-
         <View style={styles.tabBarInfoContainer}>
-
         </View>
       </View>
     );
