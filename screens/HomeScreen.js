@@ -5,7 +5,6 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
 import { SectionList, Button } from 'react-native';
@@ -24,9 +23,9 @@ export default class HomeScreen extends React.Component {
   componentWillMount() {
     fetch('https://rest-customers-1212.herokuapp.com/categories')
     .then((response) => response.json())
-    .then((responseJson) => {
+    .then((categories) => {
       this.setState({
-        categories: responseJson
+        categories: categories
       });
     })
   }
@@ -58,7 +57,7 @@ export default class HomeScreen extends React.Component {
                   </Text>
                   <Button
                     title="Details"
-                    onPress={() => navigate('ProductView', { name: item.name })}
+                    onPress={() => navigate('ProductView', { name: item.name, img: item.img, description: item.description, price: item.price, quantity: item.quantity })}
                   />
                  </View>
                   }
@@ -100,7 +99,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   categoryImage: {
-    width: 200,
+    width: 250,
     height: 200,
     resizeMode: 'contain',
     marginTop: 3
