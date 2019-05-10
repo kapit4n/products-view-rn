@@ -36,7 +36,7 @@ export default class HomeScreen extends React.Component {
 
   render() {
 
-    const { navigate } = this.props.navigation;
+    const { navigate, push } = this.props.navigation;
 
     return (
       <View style={styles.container}>
@@ -57,7 +57,7 @@ export default class HomeScreen extends React.Component {
                   </Text>
                   <Button
                     title="Details"
-                    onPress={() => navigate('ProductView', { name: item.name, img: item.img, description: item.description, price: item.price, quantity: item.quantity })}
+                    onPress={() => push('ProductView', { name: item.name, img: item.img, description: item.description, price: item.price, quantity: item.quantity })}
                   />
                  </View>
                   }
