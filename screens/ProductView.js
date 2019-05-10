@@ -9,42 +9,44 @@ import {
   View,
   Button
 } from 'react-native';
-import { SectionList } from 'react-native';
 
 export default class ProductView extends React.Component {
+
+  constructor(props) {
+    super(props);
+  }
+
   static navigationOptions = {
     header: null,
   };
 
   render() {
-
     const { navigate } = this.props.navigation;
-
+    const productName = this.props.navigation.getParam('name', '');
+    const productImg = this.props.navigation.getParam('img', '');
+    const productPrice = this.props.navigation.getParam('price', '');
+    const productQuantity = this.props.navigation.getParam('quantity', '');
+    const productDescription = this.props.navigation.getParam('description', '');
 
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-        <Button title="Back to Home"
-                onPress={() => navigate('Home', { name: 'Jane' })} />
-
+        <Button title="Back to Home" onPress={() => navigate('Home')} />
+          <View>
+            <Text>
+            { productName }
+            </Text>
+          </View>
           <View style={styles.imageContainer}>
-            <Image source={ {uri: 'https://target.scene7.com/is/image/Target/GUEST_f5d0cfc3-9d02-4ee0-a6c6-ed5dc09971d1?wid=488&hei=488&fmt=pjpeg'} } style={styles.productImage} />
+            <Image source={ {uri: productImg} } style={styles.productImage} />
           </View>
 
           <View>
+            <Text>Price: ${productPrice}</Text>
+            <Text>Quantity: {productQuantity}</Text>
             <Text>
-            A banana is an edible fruit – botanically a berry – produced by 
-            several kinds of large herbaceous flowering plants in the genus Musa. 
-            In some countries, bananas used for cooking may be called "plantains", 
-            distinguishing them from dessert bananas.
+            {productDescription}
             </Text>
-          </View>
-
-
-          <View style={styles.helpContainer}>
-            <TouchableOpacity onPress={this._handleHelpPress} style={styles.helpLink}>
-              <Text style={styles.helpLinkText}>Help, it didn’t automatically reload!</Text>
-            </TouchableOpacity>
           </View>
         </ScrollView>
 
@@ -66,15 +68,15 @@ const styles = StyleSheet.create({
     paddingTop: 30,
   },
   productImage: {
-    width: 200,
-    height: 200,
+    width: 250,
+    height: 230,
     resizeMode: 'contain',
     marginTop: 3,
     marginLeft: -10,
   },
   imageContainer: {
     alignItems: 'center',
-    marginHorizontal: 50,
+    marginHorizontal: 3,
   },
   tabBarInfoContainer: {
     position: 'absolute',
